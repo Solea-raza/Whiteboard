@@ -3,6 +3,7 @@ package mg.arovy.whiteboard;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,9 +12,14 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import mg.arovy.whiteboard.factory.LineFactory;
+import mg.arovy.whiteboard.factory.RectFactory;
+import mg.arovy.whiteboard.factory.OvalFactory;
 import mg.arovy.whiteboard.views.DrawingView;
 
 public class MainActivity extends AppCompatActivity {
+
+    private DrawingView drawingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,28 +32,39 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         addDrawingView();
+        setupButtons();   //les boutons son créés ici
     }
 
     private void addDrawingView(){
-        DrawingView drawingView = new DrawingView(this);
+        drawingView = new DrawingView(this);
         drawingView.setId(View.generateViewId());
 
-        //Create ConstraintLayout params
         ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
                 ConstraintLayout.LayoutParams.MATCH_CONSTRAINT,
                 ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
         );
 
-        // Constrain to all four edges of parent
-        params.topToTop = ConstraintLayout.LayoutParams.PARENT_ID;
+        // place le DrawingView sous les boutons --> sinon il ne se passe rien qd on clique sur les boutons
+        params.topToBottom = findViewById(R.id.button_layout).getId();
         params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
         params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
         params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
 
-        // Get parent layout and DrawingView
         ConstraintLayout mainLayout = findViewById(R.id.main);
         mainLayout.addView(drawingView, params);
 
+        drawingView.setFigureFactory(new LineFactory()); //valeure par défaut
+    }
 
+    //ajout de setUpButton pour lier au Factory correspondant les boutons et écouter les cliques de la souris pour changer
+    //ce qu'il faut dessiner
+    private void setupButtons() {
+        Button btnLine = findViewById(R.id.btn_line);
+        Button btnRect = findViewById(R.id.btn_rect);
+        Button btnOval = findViewById(R.id.btn_oval);
+
+        btnLine.setOnClickListener(v -> drawingView.setFigureFactory(new LineFactory()));
+        btnRect.setOnClickListener(v -> drawingView.setFigureFactory(new RectFactory()));
+        btnOval.setOnClickListener(v -> drawingView.setFigureFactory(new OvalFactory()));
     }
 }

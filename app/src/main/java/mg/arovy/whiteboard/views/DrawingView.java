@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -14,19 +15,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mg.arovy.whiteboard.data.Figure;
-import mg.arovy.whiteboard.data.FigureLine;
-import mg.arovy.whiteboard.data.FigureOval;
-import mg.arovy.whiteboard.data.FigureRect;
+import mg.arovy.whiteboard.factory.FigureFactory;
 
 public class DrawingView extends View {
     float startX;
     float startY;
-    float currentX;
-    float currentY;
+    //float currentX;
+    //float currentY;
     private Paint drawingPaint;
     private Canvas drawingCanvas;
     private List<Figure> listFigure = new ArrayList<>();
-    private int currentFigureType = 2;
+    // MODIFICATIONS : au lieu d'utiliser currentFigureType on utilise l'interface figureFactory
+    // private int currentFigureType = 2;
+    private FigureFactory currentFactory;
     private Figure currentFigure = null;
 
     public DrawingView(Context context) {
@@ -55,25 +56,16 @@ public class DrawingView extends View {
     @Override
     protected  void onDraw(Canvas drawingCanvas){
         super.onDraw(drawingCanvas);
-        //int radius = 200;
-        //drawingCanvas.drawCircle(posX, posY, radius, drawingPaint);
         for (Figure figure: listFigure){
             figure.displayCanvas(drawingCanvas);
         }
             if (currentFigure!= null)
                 currentFigure.displayCanvas(drawingCanvas);
-        //drawingCanvas.drawLine(startX, startY, currentX, currentY, drawingPaint);
 
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-        //posX = event.getX(); // position X dans la View
-        //posY = event.getY(); //position Y dans la View
-        //invalidate();
-        //return true;
-
         float x = event.getX();
         float y = event.getY();
         switch (event.getAction()) {
@@ -81,10 +73,9 @@ public class DrawingView extends View {
                 startX = x;
                 startY = y;
                 break;
-            case (MotionEvent.ACTION_MOVE):
+            /*case (MotionEvent.ACTION_MOVE):
                     currentX = x;
                     currentY = y;
-                    //currentFigure = new Figure(currentFigureType, startX, startY, currentX,currentY, drawingPaint);
                 switch (currentFigureType){
                     case 1:
                         currentFigure = new FigureLine(startX, startY, currentX, currentY, drawingPaint);
@@ -96,6 +87,14 @@ public class DrawingView extends View {
                         currentFigure = new FigureOval(startX, startY, currentX, currentY, drawingPaint);
                         break;
                 }
+                break;*/
+            //MODIF : on n'utilise plus les switch/case pour changer de type mais on crée en fonction du currentFigure
+            case MotionEvent.ACTION_MOVE:
+                if (currentFactory != null) {
+                    currentFigure = currentFactory.create(
+                            startX, startY, x, y, drawingPaint
+                    );
+                }
                 break;
 
             case (MotionEvent.ACTION_UP):
@@ -105,4 +104,10 @@ public class DrawingView extends View {
         invalidate();
         return true;
     }
+
+    //setters pour FigureFactory
+    public void setFigureFactory(FigureFactory factory) {
+        this.currentFactory = factory;
+    }
+
 }
