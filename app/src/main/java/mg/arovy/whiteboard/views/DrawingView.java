@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -20,16 +19,16 @@ import mg.arovy.whiteboard.factory.FigureFactory;
 public class DrawingView extends View {
     float startX;
     float startY;
-    //float currentX;
-    //float currentY;
+
     private Paint drawingPaint;
-    private Canvas drawingCanvas;
     private List<Figure> listFigure = new ArrayList<>();
     // MODIFICATIONS : au lieu d'utiliser currentFigureType on utilise l'interface figureFactory
-    // private int currentFigureType = 2;
+
     private FigureFactory currentFactory;
     private Figure currentFigure = null;
-
+    private Figure selectedFigure = null;
+    private float lastX;
+    private float lastY;
     public DrawingView(Context context) {
         super(context);
         initComponents();
@@ -69,36 +68,59 @@ public class DrawingView extends View {
         float x = event.getX();
         float y = event.getY();
         switch (event.getAction()) {
-            case (MotionEvent.ACTION_DOWN):
+            case MotionEvent.ACTION_DOWN:
+
+                lastX = x;
+                lastY = y;
+
+                for(int i = listFigure.size() - 1; i >= 0; i--) {
+
+                    Figure f = listFigure.get(i);
+
+                    if(f.contains(x,y)){
+                        selectedFigure = f;
+                        return true;
+                    }
+                }
+
                 startX = x;
                 startY = y;
                 break;
-            /*case (MotionEvent.ACTION_MOVE):
-                    currentX = x;
-                    currentY = y;
-                switch (currentFigureType){
-                    case 1:
-                        currentFigure = new FigureLine(startX, startY, currentX, currentY, drawingPaint);
-                        break;
-                    case 2:
-                        currentFigure = new FigureRect(startX, startY, currentX, currentY, drawingPaint);
-                        break;
-                    case 3:
-                        currentFigure = new FigureOval(startX, startY, currentX, currentY, drawingPaint);
-                        break;
-                }
-                break;*/
+
             //MODIF : on n'utilise plus les switch/case pour changer de type mais on crée en fonction du currentFigure
             case MotionEvent.ACTION_MOVE:
-                if (currentFactory != null) {
-                    currentFigure = currentFactory.create(
-                            startX, startY, x, y, drawingPaint
-                    );
+
+                if(selectedFigure != null){
+
+                    float dx = x - lastX;
+                    float dy = y - lastY;
+
+                    selectedFigure.move(dx,dy);
+
+                    lastX = x;
+                    lastY = y;
+
                 }
+                else if(currentFactory != null){
+
+                    currentFigure = currentFactory.create(
+                            startX,startY,x,y,drawingPaint
+                    );
+
+                }
+
                 break;
 
-            case (MotionEvent.ACTION_UP):
+            case MotionEvent.ACTION_UP:
+
+                if(selectedFigure != null){
+                    selectedFigure = null;
+                }
+                else if(currentFigure != null){
                     listFigure.add(currentFigure);
+                    currentFigure = null;
+                }
+
                 break;
         }
         invalidate();

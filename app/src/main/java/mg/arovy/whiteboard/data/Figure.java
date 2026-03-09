@@ -20,5 +20,12 @@ public abstract class Figure {
     }
 
     public abstract void displayCanvas(Canvas canvas);
+    public abstract boolean contains(float x, float y);
 
+    public void move(float dx, float dy){
+        startX += dx;
+        startY += dy;
+        endX += dx;
+        endY += dy;
+    }
 }

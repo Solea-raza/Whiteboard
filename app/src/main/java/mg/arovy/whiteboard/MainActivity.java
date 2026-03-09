@@ -3,11 +3,10 @@ package mg.arovy.whiteboard;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -32,39 +31,68 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
         addDrawingView();
-        setupButtons();   //les boutons son créés ici
+        setupButtons();
+        setupMenuToggle();
+        setupShapeMenu();
     }
 
     private void addDrawingView(){
-        drawingView = new DrawingView(this);
-        drawingView.setId(View.generateViewId());
 
-        ConstraintLayout.LayoutParams params = new ConstraintLayout.LayoutParams(
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT,
-                ConstraintLayout.LayoutParams.MATCH_CONSTRAINT
+        drawingView = new DrawingView(this);
+
+        ViewGroup container = findViewById(R.id.drawing_container);
+
+        container.addView(
+                drawingView,
+                new ViewGroup.LayoutParams(
+                        ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                )
         );
 
-        // place le DrawingView sous les boutons --> sinon il ne se passe rien qd on clique sur les boutons
-        params.topToBottom = findViewById(R.id.button_layout).getId();
-        params.bottomToBottom = ConstraintLayout.LayoutParams.PARENT_ID;
-        params.startToStart = ConstraintLayout.LayoutParams.PARENT_ID;
-        params.endToEnd = ConstraintLayout.LayoutParams.PARENT_ID;
-
-        ConstraintLayout mainLayout = findViewById(R.id.main);
-        mainLayout.addView(drawingView, params);
-
-        drawingView.setFigureFactory(new LineFactory()); //valeure par défaut
+        drawingView.setFigureFactory(new LineFactory());
     }
 
     //ajout de setUpButton pour lier au Factory correspondant les boutons et écouter les cliques de la souris pour changer
     //ce qu'il faut dessiner
     private void setupButtons() {
-        Button btnLine = findViewById(R.id.btn_line);
-        Button btnRect = findViewById(R.id.btn_rect);
-        Button btnOval = findViewById(R.id.btn_oval);
+        ImageButton btnLine = findViewById(R.id.btn_line);
+        ImageButton btnRect = findViewById(R.id.btn_rect);
+        ImageButton btnOval = findViewById(R.id.btn_oval);
 
         btnLine.setOnClickListener(v -> drawingView.setFigureFactory(new LineFactory()));
         btnRect.setOnClickListener(v -> drawingView.setFigureFactory(new RectFactory()));
         btnOval.setOnClickListener(v -> drawingView.setFigureFactory(new OvalFactory()));
+    }
+    private void setupMenuToggle(){
+
+        View toggle = findViewById(R.id.toggle_button);
+        View mainMenu = findViewById(R.id.menu_main);
+
+        toggle.setOnClickListener(v -> {
+
+            if(mainMenu.getVisibility() == View.GONE){
+                mainMenu.setVisibility(View.VISIBLE);
+            }else{
+                mainMenu.setVisibility(View.GONE);
+            }
+
+        });
+    }
+    private void setupShapeMenu(){
+
+        View shapeIcon = findViewById(R.id.icon_shape);
+        View shapeMenu = findViewById(R.id.menu_shapes);
+
+        shapeIcon.setOnClickListener(v -> {
+
+            if(shapeMenu.getVisibility() == View.GONE){
+                shapeMenu.setVisibility(View.VISIBLE);
+            }else{
+                shapeMenu.setVisibility(View.GONE);
+            }
+
+        });
+
     }
 }

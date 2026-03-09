@@ -5,5 +5,8 @@
 
 --> changement effectué le 06/02/06
 
-# CHANGEMENTS PREVUS POUR LA SEMAINE 09/02/06
+# CHANGEMENTS PREVUS POUR LA SEMAINE 09/02/26
 - pouvoir déplacer les figures en les selectionnant
+
+--> changement effectué le 09/02/26
++update des icones
