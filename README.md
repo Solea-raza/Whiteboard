@@ -10,3 +10,8 @@
 
 --> changement effectué le 09/02/26
 +update des icones
+
+# CHANGEMENT 12/03/26:
+- changer les couleurs
+
+à faire : laisser l'utilisateur choisir les couleurs stroke et fill
