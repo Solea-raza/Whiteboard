@@ -9,12 +9,14 @@ public abstract class Figure {
     protected float endX;
     protected float endY;
 
-    protected Paint paint;
+    protected Paint strokePaint;
+    protected Paint fillPaint;
 
-    public Figure(float startX, float startY, float endX, float endY, Paint paint){
+    public Figure(float startX, float startY, float endX, float endY, Paint strokePaint, Paint fillPaint){
         this.endX = endX;
         this.endY = endY;
-        this.paint = paint;
+        this.strokePaint = strokePaint;
+        this.fillPaint = fillPaint;
         this.startX = startX;
         this.startY = startY;
     }

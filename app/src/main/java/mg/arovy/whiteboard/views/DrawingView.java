@@ -19,8 +19,8 @@ import mg.arovy.whiteboard.factory.FigureFactory;
 public class DrawingView extends View {
     float startX;
     float startY;
-
-    private Paint drawingPaint;
+    private Paint strokePaint;
+    private Paint fillPaint;
     private List<Figure> listFigure = new ArrayList<>();
     // MODIFICATIONS : au lieu d'utiliser currentFigureType on utilise l'interface figureFactory
 
@@ -45,11 +45,16 @@ public class DrawingView extends View {
     }
 
     private void initComponents(){
-        drawingPaint = new Paint();
-        drawingPaint.setColor(Color.RED);
-        drawingPaint.setStyle(Paint.Style.FILL);
-        drawingPaint.setAntiAlias(true);
-        drawingPaint.setStrokeWidth(10);
+        strokePaint = new Paint();
+        strokePaint.setColor(Color.BLACK);
+        strokePaint.setStyle(Paint.Style.STROKE);
+        strokePaint.setStrokeWidth(8);
+        strokePaint.setAntiAlias(true);
+
+        fillPaint = new Paint();
+        fillPaint.setColor(Color.BLUE);
+        fillPaint.setStyle(Paint.Style.FILL);
+        fillPaint.setAntiAlias(true);
     }
 
     @Override
@@ -104,7 +109,7 @@ public class DrawingView extends View {
                 else if(currentFactory != null){
 
                     currentFigure = currentFactory.create(
-                            startX,startY,x,y,drawingPaint
+                            startX,startY,x,y,strokePaint,fillPaint
                     );
 
                 }

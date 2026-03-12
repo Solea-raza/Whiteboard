@@ -7,7 +7,7 @@ import mg.arovy.whiteboard.data.FigureLine;
 
 public class LineFactory implements FigureFactory {
     @Override
-    public Figure create(float sx, float sy, float ex, float ey, Paint paint) {
-        return new FigureLine(sx, sy, ex, ey, paint);
+    public Figure create(float sx, float sy, float ex, float ey, Paint strokePaint, Paint fillPaint) {
+        return new FigureLine(sx, sy, ex, ey, strokePaint, fillPaint);
     }
 }

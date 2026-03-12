@@ -7,7 +7,7 @@ import mg.arovy.whiteboard.data.FigureRect;
 
 public class RectFactory implements FigureFactory {
     @Override
-    public Figure create(float sx, float sy, float ex, float ey, Paint paint) {
-        return new FigureRect(sx, sy, ex, ey, paint);
+    public Figure create(float sx, float sy, float ex, float ey, Paint strokePaint, Paint fillPaint) {
+        return new FigureRect(sx, sy, ex, ey, strokePaint, fillPaint);
     }
 }

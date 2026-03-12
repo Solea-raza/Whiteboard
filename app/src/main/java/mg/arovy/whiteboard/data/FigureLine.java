@@ -4,13 +4,13 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 public class FigureLine extends Figure{
-    public FigureLine(float startX, float startY, float endX, float endY, Paint paint) {
-        super(startX, startY, endX, endY, paint);
+    public FigureLine(float startX, float startY, float endX, float endY, Paint strokePaint, Paint fillPaint) {
+        super(startX, startY, endX, endY, strokePaint, fillPaint);
     }
 
     @Override
     public void displayCanvas(Canvas canvas) {
-        canvas.drawLine(startX, startY, endX, endY, paint);
+        canvas.drawLine(startX, startY, endX, endY, strokePaint);
     }
     @Override
     public boolean contains(float x, float y) {

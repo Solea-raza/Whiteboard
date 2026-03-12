@@ -30,23 +30,29 @@
 
         <ImageButton
             android:id="@+id/btn_line"
-            android:src="@android:drawable/ic_menu_edit"
+            android:src="@drawable/nodes"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:background="@null"
+            android:scaleType="centerInside"
             android:contentDescription="ligne"/>
 
         <ImageButton
             android:id="@+id/btn_rect"
-            android:src="@android:drawable/ic_menu_crop"
+            android:src="@drawable/rectangle"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:background="@null"
+            android:scaleType="centerInside"
             android:contentDescription="rectangle"/>
 
         <ImageButton
             android:id="@+id/btn_oval"
-            android:src="@android:drawable/ic_menu_gallery"
+            android:src="@drawable/circle"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:background="@null"
+            android:scaleType="centerInside"
             android:contentDescription="ellipse"/>
 
     </LinearLayout>
@@ -65,23 +71,29 @@
 
         <ImageButton
             android:id="@+id/icon_shape"
-            android:src="@android:drawable/ic_menu_edit"
+            android:src="@drawable/shapes"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:background="@null"
+            android:scaleType="centerInside"
             android:contentDescription="formes"/>
 
         <ImageButton
             android:id="@+id/icon_color"
-            android:src="@android:drawable/ic_menu_manage"
+            android:src="@drawable/color"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:background="@null"
+            android:scaleType="centerInside"
             android:contentDescription="couleurs"/>
 
         <ImageButton
             android:id="@+id/icon_eraser"
-            android:src="@android:drawable/ic_menu_delete"
+            android:src="@drawable/eraser"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:background="@null"
+            android:scaleType="centerInside"
             android:contentDescription="gomme"/>
 
     </LinearLayout>

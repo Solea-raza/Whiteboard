@@ -10,7 +10,8 @@ public interface FigureFactory {
             float startY,
             float endX,
             float endY,
-            Paint paint
+            Paint strokePaint,
+            Paint fillPaint
     );
 }
 
