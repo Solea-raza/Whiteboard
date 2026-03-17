@@ -5,6 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import android.app.AlertDialog;
+import android.widget.EditText;
+import android.widget.Toast;
+import android.graphics.Color;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -25,15 +30,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
         addDrawingView();
         setupButtons();
-        setupMenuToggle();
         setupShapeMenu();
+        setupColorPalette();
     }
 
     private void addDrawingView(){
@@ -53,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
         drawingView.setFigureFactory(new LineFactory());
     }
 
-    //ajout de setUpButton pour lier au Factory correspondant les boutons et écouter les cliques de la souris pour changer
-    //ce qu'il faut dessiner
+    // 🎯 choix des formes
     private void setupButtons() {
         ImageButton btnLine = findViewById(R.id.btn_line);
         ImageButton btnRect = findViewById(R.id.btn_rect);
@@ -64,35 +70,80 @@ public class MainActivity extends AppCompatActivity {
         btnRect.setOnClickListener(v -> drawingView.setFigureFactory(new RectFactory()));
         btnOval.setOnClickListener(v -> drawingView.setFigureFactory(new OvalFactory()));
     }
-    private void setupMenuToggle(){
 
-        View toggle = findViewById(R.id.toggle_button);
-        View mainMenu = findViewById(R.id.menu_main);
-
-        toggle.setOnClickListener(v -> {
-
-            if(mainMenu.getVisibility() == View.GONE){
-                mainMenu.setVisibility(View.VISIBLE);
-            }else{
-                mainMenu.setVisibility(View.GONE);
-            }
-
-        });
-    }
+    // 📂 menu formes
     private void setupShapeMenu(){
 
         View shapeIcon = findViewById(R.id.icon_shape);
         View shapeMenu = findViewById(R.id.menu_shapes);
 
         shapeIcon.setOnClickListener(v -> {
-
             if(shapeMenu.getVisibility() == View.GONE){
                 shapeMenu.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 shapeMenu.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    // 🎨 palette + modes
+    private void setupColorPalette(){
+
+        // 🔥 MODE
+        findViewById(R.id.btn_stroke)
+                .setOnClickListener(v -> {
+                    drawingView.setStrokeMode();
+                    Toast.makeText(this,"Mode bordure",Toast.LENGTH_SHORT).show();
+                });
+
+        findViewById(R.id.btn_fill)
+                .setOnClickListener(v -> {
+                    drawingView.setFillMode();
+                    Toast.makeText(this,"Mode fond",Toast.LENGTH_SHORT).show();
+                });
+
+        // 🎨 COULEURS
+        findViewById(R.id.color_black)
+                .setOnClickListener(v -> drawingView.setColor(Color.BLACK));
+
+        findViewById(R.id.color_red)
+                .setOnClickListener(v -> drawingView.setColor(Color.RED));
+
+        findViewById(R.id.color_green)
+                .setOnClickListener(v -> drawingView.setColor(Color.GREEN));
+
+        findViewById(R.id.color_blue)
+                .setOnClickListener(v -> drawingView.setColor(Color.BLUE));
+
+        findViewById(R.id.color_custom)
+                .setOnClickListener(v -> openColorPicker());
+    }
+
+    // 🎯 color picker dynamique (CORRIGÉ)
+    private void openColorPicker(){
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        final EditText input = new EditText(this);
+        input.setHint("#FF00FF");
+
+        builder.setTitle("Enter HEX Color");
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", (dialog, which) -> {
+
+            try{
+                int color = Color.parseColor(input.getText().toString());
+                drawingView.setColor(color); // ✅ respecte le mode
+            }
+            catch(Exception e){
+                Toast.makeText(this,"Invalid HEX",Toast.LENGTH_SHORT).show();
             }
 
         });
 
+        builder.setNegativeButton("Cancel",null);
+
+        builder.show();
     }
 }

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Whiteboard</string>
+    <string name="ligne">ligne</string>
+    <string name="rectangle">rectangle</string>
+    <string name="ellipse">ellipse</string>
+    <string name="forme">forme</string>
+    <string name="couleur">couleur</string>
+    <string name="gomme">gomme</string>
+    <string name="palette_personnalise">palette perso</string>
 </resources>

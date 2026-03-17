@@ -17,18 +17,22 @@ import mg.arovy.whiteboard.data.Figure;
 import mg.arovy.whiteboard.factory.FigureFactory;
 
 public class DrawingView extends View {
-    float startX;
-    float startY;
+
+    float startX, startY;
     private Paint strokePaint;
     private Paint fillPaint;
+
     private List<Figure> listFigure = new ArrayList<>();
-    // MODIFICATIONS : au lieu d'utiliser currentFigureType on utilise l'interface figureFactory
 
     private FigureFactory currentFactory;
     private Figure currentFigure = null;
     private Figure selectedFigure = null;
-    private float lastX;
-    private float lastY;
+
+    private float lastX, lastY;
+
+    // 🔥 mode couleur
+    private boolean isStrokeMode = true;
+
     public DrawingView(Context context) {
         super(context);
         initComponents();
@@ -36,11 +40,6 @@ public class DrawingView extends View {
 
     public DrawingView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initComponents();
-    }
-
-    public DrawingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
         initComponents();
     }
 
@@ -52,36 +51,39 @@ public class DrawingView extends View {
         strokePaint.setAntiAlias(true);
 
         fillPaint = new Paint();
-        fillPaint.setColor(Color.BLUE);
+        fillPaint.setColor(Color.TRANSPARENT); // 🔥 important
         fillPaint.setStyle(Paint.Style.FILL);
         fillPaint.setAntiAlias(true);
     }
 
     @Override
-    protected  void onDraw(Canvas drawingCanvas){
-        super.onDraw(drawingCanvas);
-        for (Figure figure: listFigure){
-            figure.displayCanvas(drawingCanvas);
-        }
-            if (currentFigure!= null)
-                currentFigure.displayCanvas(drawingCanvas);
+    protected void onDraw(Canvas canvas){
+        super.onDraw(canvas);
 
+        for (Figure figure: listFigure){
+            figure.displayCanvas(canvas);
+        }
+
+        if (currentFigure != null){
+            currentFigure.displayCanvas(canvas);
+        }
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         float x = event.getX();
         float y = event.getY();
+
         switch (event.getAction()) {
+
             case MotionEvent.ACTION_DOWN:
 
                 lastX = x;
                 lastY = y;
 
                 for(int i = listFigure.size() - 1; i >= 0; i--) {
-
                     Figure f = listFigure.get(i);
-
                     if(f.contains(x,y)){
                         selectedFigure = f;
                         return true;
@@ -92,7 +94,6 @@ public class DrawingView extends View {
                 startY = y;
                 break;
 
-            //MODIF : on n'utilise plus les switch/case pour changer de type mais on crée en fonction du currentFigure
             case MotionEvent.ACTION_MOVE:
 
                 if(selectedFigure != null){
@@ -105,13 +106,11 @@ public class DrawingView extends View {
                     lastX = x;
                     lastY = y;
 
-                }
-                else if(currentFactory != null){
+                } else if(currentFactory != null){
 
                     currentFigure = currentFactory.create(
-                            startX,startY,x,y,strokePaint,fillPaint
+                            startX, startY, x, y, strokePaint, fillPaint
                     );
-
                 }
 
                 break;
@@ -128,13 +127,30 @@ public class DrawingView extends View {
 
                 break;
         }
+
         invalidate();
         return true;
     }
 
-    //setters pour FigureFactory
+    // 🔧 FACTORY
     public void setFigureFactory(FigureFactory factory) {
         this.currentFactory = factory;
     }
 
+    // 🎯 MODE COULEUR
+    public void setStrokeMode(){
+        isStrokeMode = true;
+    }
+
+    public void setFillMode(){
+        isStrokeMode = false;
+    }
+
+    public void setColor(int color){
+        if(isStrokeMode){
+            strokePaint.setColor(color);
+        } else {
+            fillPaint.setColor(color);
+        }
+    }
 }

@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity" >
+    android:layout_height="match_parent">
+
     <!-- zone dessin -->
     <FrameLayout
         android:id="@+id/drawing_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/toggle_button"
+        app:layout_constraintBottom_toTopOf="@id/menu_shapes"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-
-    <!-- sous menu formes -->
+    <!-- menu formes -->
     <LinearLayout
         android:id="@+id/menu_shapes"
         android:layout_width="match_parent"
@@ -54,88 +53,125 @@
             android:background="@null"
             android:scaleType="centerInside"
             android:contentDescription="ellipse"/>
-
     </LinearLayout>
-
 
     <!-- menu principal -->
     <LinearLayout
         android:id="@+id/menu_main"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:visibility="gone"
+        android:orientation="vertical"
         android:background="#EEEEEE"
-        app:layout_constraintBottom_toTopOf="@id/toggle_button">
+        android:elevation="10dp"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="16dp">
 
-        <ImageButton
-            android:id="@+id/icon_shape"
-            android:src="@drawable/shapes"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:contentDescription="formes"/>
+        <!-- icônes principales -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <ImageButton
-            android:id="@+id/icon_color"
-            android:src="@drawable/color"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:contentDescription="couleurs"/>
+            <ImageButton
+                android:id="@+id/icon_shape"
+                android:src="@drawable/shapes"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:contentDescription="formes"/>
 
-        <ImageButton
-            android:id="@+id/icon_eraser"
-            android:src="@drawable/eraser"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:background="@null"
-            android:scaleType="centerInside"
-            android:contentDescription="gomme"/>
+            <ImageButton
+                android:id="@+id/icon_color"
+                android:src="@drawable/color"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:contentDescription="couleurs"/>
+
+            <ImageButton
+                android:id="@+id/icon_eraser"
+                android:src="@drawable/eraser"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:background="@null"
+                android:scaleType="centerInside"
+                android:contentDescription="gomme"/>
+        </LinearLayout>
+
+        <!-- 🔥 NOUVEAU : choix mode -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
+
+            <Button
+                android:id="@+id/btn_stroke"
+                android:text="Stroke"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btn_fill"
+                android:text="Fill"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+
+        <!-- palette -->
+        <HorizontalScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <View
+                    android:id="@+id/color_black"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="#000000"
+                    android:layout_margin="4dp"/>
+
+                <View
+                    android:id="@+id/color_red"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="#FF0000"
+                    android:layout_margin="4dp"/>
+
+                <View
+                    android:id="@+id/color_green"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="#00FF00"
+                    android:layout_margin="4dp"/>
+
+                <View
+                    android:id="@+id/color_blue"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:background="#0000FF"
+                    android:layout_margin="4dp"/>
+
+                <ImageButton
+                    android:id="@+id/color_custom"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:src="@android:drawable/ic_input_add"
+                    android:background="#DDDDDD"
+                    android:layout_margin="4dp"/>
+            </LinearLayout>
+        </HorizontalScrollView>
 
     </LinearLayout>
 
-
-    <!-- flèche -->
-    <ImageButton
-        android:id="@+id/toggle_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:src="@android:drawable/arrow_up_float"
-        android:background="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-<!--    <LinearLayout-->
-<!--        android:gravity="center"-->
-<!--        android:id="@+id/button_layout"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:orientation="horizontal"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btn_line"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:text="Ligne" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btn_rect"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:text="Rectangle" />-->
-
-<!--        <Button-->
-<!--            android:id="@+id/btn_oval"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:text="Ovale" />-->
-<!--    </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>
-<!--rajout des boutons qui s'affichent dans le layout-->
