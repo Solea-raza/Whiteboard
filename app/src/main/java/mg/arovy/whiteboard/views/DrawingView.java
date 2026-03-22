@@ -31,11 +31,8 @@ public class DrawingView extends View {
 
     private float lastX, lastY;
 
-    // 🔥 mode couleur
-    private boolean isStrokeMode = true;
-
     public DrawingView(Context context) {
-        super(context);
+           super(context);
         initComponents();
     }
 
@@ -69,81 +66,67 @@ public class DrawingView extends View {
             currentFigure.displayCanvas(canvas);
         }
     }
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
         float x = event.getX();
         float y = event.getY();
 
         switch (event.getAction()) {
-
-            case MotionEvent.ACTION_DOWN:
-
-                lastX = x;
-                lastY = y;
-
-                for(int i = listFigure.size() - 1; i >= 0; i--) {
-                    Figure f = listFigure.get(i);
-                    if(f.contains(x,y)){
-                        selectedFigure = f;
-
-                        if(listener != null){
-                            listener.onFigureSelected(f, x, y);
-                        }
-
-                        return true;
-                    }
-                }
-
-                startX = x;
-                startY = y;
-                break;
-
-            case MotionEvent.ACTION_MOVE:
-
-                if(selectedFigure != null){
-
-                    float dx = x - lastX;
-                    float dy = y - lastY;
-
-                    selectedFigure.move(dx,dy);
-
-                    lastX = x;
-                    lastY = y;
-
-                } else if(currentFactory != null){
-
-                    currentFigure = currentFactory.create(
-                            startX, startY, x, y, strokePaint, fillPaint
-                    );
-                }
-
-                break;
-
-            case MotionEvent.ACTION_UP:
-
-                if(selectedFigure != null){
-                    selectedFigure = null;
-                }
-                else if(currentFigure != null){
-                    listFigure.add(currentFigure);
-
-                    if(listener != null){
-                        listener.onFigureSelected(currentFigure, x, y);
-                    }
-
-                    currentFigure = null;
-                }
-
-                break;
+            case MotionEvent.ACTION_DOWN: handleDown(x, y); break;
+            case MotionEvent.ACTION_MOVE: handleMove(x, y); break;
+            case MotionEvent.ACTION_UP:   handleUp(x, y);   break;
         }
 
         invalidate();
         return true;
     }
+    // au lieu d'utiliser case,j'ai séparé en des méthodes pour que la méth ne fasse pas +30 lignes
+    private void handleDown(float x, float y) {
+        lastX = x;
+        lastY = y;
 
-    // 🔧 FACTORY
+        for (int i = listFigure.size() - 1; i >= 0; i--) {
+            Figure f = listFigure.get(i);
+            if (f.contains(x, y)) {
+                selectedFigure = f;
+                if (listener != null) listener.onFigureSelected(f, x, y);
+                return;
+            }
+        }
+
+        startX = x;
+        startY = y;
+    }
+    private void handleMove(float x, float y) {
+        if (selectedFigure != null) {
+            moveSelectedFigure(x, y);
+        } else if (currentFactory != null) {
+            currentFigure = currentFactory.create(startX, startY, x, y, strokePaint, fillPaint);
+        }
+    }
+
+    private void moveSelectedFigure(float x, float y) {
+        float dx = x - lastX;
+        float dy = y - lastY;
+        selectedFigure.move(dx, dy);
+        lastX = x;
+        lastY = y;
+    }
+    private void handleUp(float x, float y) {
+        if (selectedFigure != null) {
+            selectedFigure = null;
+            return;
+        }
+        if (currentFigure != null) {
+            finalizeCurrentFigure(x, y);
+        }
+    }
+
+    private void finalizeCurrentFigure(float x, float y) {
+        listFigure.add(currentFigure);
+        if (listener != null) listener.onFigureSelected(currentFigure, x, y);
+        currentFigure = null;
+    }
     public void setFigureFactory(FigureFactory factory) {
         this.currentFactory = factory;
     }

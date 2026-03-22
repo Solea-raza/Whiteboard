@@ -1,0 +1,50 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:background="#FFFFFF"
+    android:padding="4dp"
+    android:elevation="8dp"
+    android:layout_height="wrap_content"
+    android:layout_width="wrap_content">
+
+    <!-- 1. Couleur de contour (toutes figures) -->
+    <ImageButton
+        android:id="@+id/btn_color"
+        android:src="@drawable/stroke"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="fitCenter"
+        android:padding="6dp"
+        android:background="@null"/>
+
+    <!-- 2. Couleur de fond (rect et oval uniquement) -->
+    <ImageButton
+        android:id="@+id/btn_fill_color"
+        android:src="@drawable/color"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="fitCenter"
+        android:padding="6dp"
+        android:background="@null"
+        android:visibility="gone"/>
+
+    <!-- 3. Épaisseur (toutes figures) -->
+    <ImageButton
+        android:id="@+id/btn_stroke"
+        android:src="@drawable/width"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="fitCenter"
+        android:padding="6dp"
+        android:background="@null"/>
+
+    <!-- 4. Supprimer -->
+    <ImageButton
+        android:id="@+id/btn_delete"
+        android:src="@drawable/eraser"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="fitCenter"
+        android:padding="8dp"
+        android:background="@null"/>
+
+</LinearLayout>
