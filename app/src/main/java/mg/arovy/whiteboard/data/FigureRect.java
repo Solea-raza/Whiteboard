@@ -10,8 +10,8 @@ public class FigureRect extends Figure{
 
     @Override
     public void displayCanvas(Canvas canvas) {
-        canvas.drawRect(startX, startY, endX, endY, strokePaint);
         canvas.drawRect(startX, startY, endX, endY, fillPaint);
+        canvas.drawRect(startX, startY, endX, endY, strokePaint);
     }
     @Override
     public boolean contains(float x, float y) {

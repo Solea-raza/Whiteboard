@@ -11,8 +11,8 @@ public class FigureOval extends Figure{
 
     @Override
     public void displayCanvas(Canvas canvas) {
-        canvas.drawOval(startX, startY, endX, endY, strokePaint);
         canvas.drawOval(startX, startY, endX, endY, fillPaint);
+        canvas.drawOval(startX, startY, endX, endY, strokePaint);
     }
     @Override
     public boolean contains(float x, float y) {

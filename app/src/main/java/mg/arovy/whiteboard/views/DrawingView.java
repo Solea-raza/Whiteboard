@@ -1,6 +1,7 @@
 package mg.arovy.whiteboard.views;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -86,6 +87,11 @@ public class DrawingView extends View {
                     Figure f = listFigure.get(i);
                     if(f.contains(x,y)){
                         selectedFigure = f;
+
+                        if(listener != null){
+                            listener.onFigureSelected(f, x, y);
+                        }
+
                         return true;
                     }
                 }
@@ -122,6 +128,11 @@ public class DrawingView extends View {
                 }
                 else if(currentFigure != null){
                     listFigure.add(currentFigure);
+
+                    if(listener != null){
+                        listener.onFigureSelected(currentFigure, x, y);
+                    }
+
                     currentFigure = null;
                 }
 
@@ -136,21 +147,23 @@ public class DrawingView extends View {
     public void setFigureFactory(FigureFactory factory) {
         this.currentFactory = factory;
     }
+    public Bitmap getBitmap(){
+        Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        draw(canvas);
+        return bitmap;
+    }
+    private OnFigureSelectedListener listener;
 
-    // 🎯 MODE COULEUR
-    public void setStrokeMode(){
-        isStrokeMode = true;
+    public interface OnFigureSelectedListener{
+        void onFigureSelected(Figure figure, float x, float y);
     }
 
-    public void setFillMode(){
-        isStrokeMode = false;
+    public void setOnFigureSelectedListener(OnFigureSelectedListener l){
+        this.listener = l;
     }
-
-    public void setColor(int color){
-        if(isStrokeMode){
-            strokePaint.setColor(color);
-        } else {
-            fillPaint.setColor(color);
-        }
+    public void removeFigure(Figure f){
+        listFigure.remove(f);
+        invalidate();
     }
 }

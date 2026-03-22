@@ -4,20 +4,20 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 //MODIFICATION : suppression des commentaires lié aux anciennes versions du codes (qd displayCnavas n'était pas abstract)
 public abstract class Figure {
+    protected float startX;
+    protected float startY;
+    protected float endX;
+    protected float endY;
 
-    protected float startX, startY, endX, endY;
     protected Paint strokePaint;
     protected Paint fillPaint;
 
-    public Figure(float startX, float startY, float endX, float endY,
-                  Paint strokePaint, Paint fillPaint){
-
-        this.startX = startX;
-        this.startY = startY;
+    public Figure(float startX, float startY, float endX, float endY, Paint strokePaint, Paint fillPaint){
         this.endX = endX;
         this.endY = endY;
+        this.startX = startX;
+        this.startY = startY;
 
-        // 🔥 COPIE obligatoire
         this.strokePaint = new Paint(strokePaint);
         this.fillPaint = new Paint(fillPaint);
     }
@@ -30,5 +30,11 @@ public abstract class Figure {
         startY += dy;
         endX += dx;
         endY += dy;
+    }
+    public Paint getStrokePaint(){
+        return strokePaint;
+    }
+    public Paint getFillPaint(){
+        return fillPaint;
     }
 }

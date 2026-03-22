@@ -7,4 +7,9 @@
     <string name="couleur">couleur</string>
     <string name="gomme">gomme</string>
     <string name="palette_personnalise">palette perso</string>
+    <string name="fill">Fill</string>
+    <string name="stroke">Stroke</string>
+    <string name="colorcustom">colorcustom</string>
+    <string name="couleurs">couleurs</string>
+    <string name="formes">formes\n</string>
 </resources>
