@@ -1,4 +1,4 @@
-package mg.arovy.whiteboard.views;
+package mg.arovy.whiteboard.utils;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -24,13 +24,12 @@ public class ColorPickerHelper {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         final AlertDialog[] dialogRef = {null};
-
+        // pour  ajouter d'autres rangées de teinte plus tard
         LinearLayout root = buildColorPickerLayout(context, figure, isFill, callback, dialogRef);
 
         builder.setTitle(isFill ? "Couleur de fond" : "Couleur de contour");
         builder.setView(root);
         builder.setNegativeButton("Annuler", null);
-
         dialogRef[0] = builder.create();
         dialogRef[0].show();
     }
@@ -55,6 +54,7 @@ public class ColorPickerHelper {
         return root;
     }
     // construire la rangée de paastille
+
     private static LinearLayout buildColorRow(
             Context context, Figure figure, boolean isFill,
             OnColorApplied callback, AlertDialog[] dialogRef) {
@@ -85,6 +85,7 @@ public class ColorPickerHelper {
         circle.setLayoutParams(lp);
 
         // cercle coloré
+        // GradientDrawable permet de dessiner un cercle comme background d'une View simple
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.OVAL);
         shape.setColor(color);

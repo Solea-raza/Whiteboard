@@ -12,8 +12,6 @@ import mg.arovy.whiteboard.R;
 import mg.arovy.whiteboard.data.Figure;
 import mg.arovy.whiteboard.data.FigureOval;
 import mg.arovy.whiteboard.data.FigureRect;
-import mg.arovy.whiteboard.views.ColorPickerHelper;
-import mg.arovy.whiteboard.views.DrawingView;
 
 public class FigureMenuManager {
 

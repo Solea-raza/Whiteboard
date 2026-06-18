@@ -2,8 +2,6 @@ package mg.arovy.whiteboard.data;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-
-
 public abstract class Figure {
     protected float startX;
     protected float startY;
@@ -34,12 +32,9 @@ public abstract class Figure {
         endX += dx;
         endY += dy;
     }
-
-    // getters de strokePaint et fillPain
     public Paint getStrokePaint() {
         return strokePaint;
     }
-
     public Paint getFillPaint() {
         return fillPaint;
     }

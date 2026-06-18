@@ -49,7 +49,7 @@ public class DrawingView extends View {
         strokePaint.setAntiAlias(true);
 
         fillPaint = new Paint();
-        fillPaint.setColor(Color.TRANSPARENT); // 🔥 important
+        fillPaint.setColor(Color.TRANSPARENT);
         fillPaint.setStyle(Paint.Style.FILL);
         fillPaint.setAntiAlias(true);
     }
@@ -128,9 +128,11 @@ public class DrawingView extends View {
         currentFigure = null;
     }
     public void setFigureFactory(FigureFactory factory) {
+
         this.currentFactory = factory;
     }
-    public Bitmap getBitmap(){
+    // prend une "photo" du dessin
+     public Bitmap getBitmap(){
         Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         draw(canvas);

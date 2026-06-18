@@ -10,12 +10,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import mg.arovy.whiteboard.views.DrawingView;
 
+// pour share le dessin
 public class DrawingExporter {
-
-    // On reçoit le contexte et la vue — on ne les stocke pas en champ,
-    // pour envoyer le dessin sous forme png qd on clique sur share
     public static void share(Context context, DrawingView drawingView) {
         try {
+
             Bitmap bitmap = drawingView.getBitmap();
 
             File cachePath = new File(context.getCacheDir(), "images");
